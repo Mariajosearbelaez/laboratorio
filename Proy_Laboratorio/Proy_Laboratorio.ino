@@ -1,29 +1,46 @@
-/*
-  Capitulo 24 de Arduino desde cero en Español.
-  Programa que permite establecer una comunicacion con el modulo Bluetooth HC-05
-  y configurarlo de manera tal que pueda ser vinculado mediante un telefono
-  movil o dispositivo compatible.
+#include <Servo.h> 
+#define PINSERVODERECHO 5 //pin del servo derecho como 5
+#define PINSERVOIZQUIERDO 7 //pin del servo derecho como 7
+Servo ServoDerecho; 
+Servo ServoIzquierdo;
 
-  Autor: bitwiseAr  
+char tecla;
 
-*/
+void setup()
+{
 
-#include <SoftwareSerial.h> // libreria que permite establecer pines digitales
-        // para comunicacion serie
-
-SoftwareSerial miBT(11, 10);  // pin 10 como RX, pin 11 como TX
-
-void setup(){
+ ServoDerecho.attach(PINSERVODERECHO);
+ ServoIzquierdo.attach(PINSERVOIZQUIERDO);
+ 
   Serial.begin(9600);   // comunicacion de monitor serial a 9600 bps
-  Serial.println("Listo");  // escribe Listo en el monitor
-  miBT.begin(38400);    // comunicacion serie entre Arduino y el modulo a 38400 bps
 }
 
 void loop(){
-if (miBT.available())       // si hay informacion disponible desde modulo
-   Serial.write(miBT.read());   // lee Bluetooth y envia a monitor serial de Arduino
-
-if (Serial.available())     // si hay informacion disponible desde el monitor serial
-   miBT.write(Serial.read());   // lee monitor serial y envia a Bluetooth
+if (Serial.available()>0)
+{
+  tecla = Serial.read();
+  switch(tecla)
+  {
+    case 'w':
+    ServoIzquierdo.write(0);
+    ServoDerecho.write(180);
+    break;
+     case 's':
+    ServoIzquierdo.write(180);
+    ServoDerecho.write(0);
+    break; 
+    case 'a':
+    ServoIzquierdo.write(90);
+    ServoDerecho.write(0);
+    break; case 'd':
+    ServoIzquierdo.write(180);
+    ServoDerecho.write(90);
+    break;
+    case 'q':
+    ServoIzquierdo.write(90);
+    ServoDerecho.write(90);
+    break;
+  }
+}
 
 }
