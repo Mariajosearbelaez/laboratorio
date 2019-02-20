@@ -59,7 +59,7 @@ digitalWrite(Pin_Trigger, LOW);
   digitalWrite(Pin_Trigger, LOW);
   duracion = pulseIn(Pin_Echo, HIGH);
   dist = (duracion/2) / 29;
-  if (dist <= 10 && dist >= 1)
+  if (dist <= 5 && dist >= 1)
   {
     ServoIzquierdo.write(90);
     ServoDerecho.write(90);
