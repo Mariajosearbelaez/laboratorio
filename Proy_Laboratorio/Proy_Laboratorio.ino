@@ -6,8 +6,9 @@
 Servo ServoDerecho; 
 Servo ServoIzquierdo;
 #include <SoftwareSerial.h>
-
-
+#define Pin_Echo 6
+#define Pin_Trigger 8
+long duracion, dist;
 char tecla;
 SoftwareSerial Bt(PinRX_BT, PinTX_BT);
 void setup()
@@ -51,5 +52,16 @@ tecla=Bt.read();
     ServoDerecho.write(90);
     break;
   }
-
+digitalWrite(Pin_Trigger, LOW);
+  delayMicroseconds(2);
+  digitalWrite(Pin_Trigger, HIGH); 
+  delayMicroseconds(10);
+  digitalWrite(Pin_Trigger, LOW);
+  duracion = pulseIn(Pin_Echo, HIGH);
+  dist = (duracion/2) / 29;
+  if (dist <= 10 && dist >= 1)
+  {
+    ServoIzquierdo.write(90);
+    ServoDerecho.write(90);
+  }
 }
