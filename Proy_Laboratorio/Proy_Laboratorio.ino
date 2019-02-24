@@ -29,7 +29,8 @@ void setup()
 
  ServoDerecho.attach(PINSERVODERECHO); // Conexión de los Servos al Arduino
  ServoIzquierdo.attach(PINSERVOIZQUIERDO);
- 
+ pinMode(Pin_Echo, INPUT);     // define el pin 6 como entrada (echo)
+  pinMode(Pin_Trigger, OUTPUT);    // define el pin 7 como salida  (triger)
  Serial.begin(9600);   // comunicacion de monitor serial a 9600 bps
  Bt.begin(9600);       // Comunicación del Bluetooth a 9600 bps
 }
@@ -75,7 +76,8 @@ digitalWrite(Pin_Trigger, LOW); // Pulso emitido por el Trigger
   
   duracion = pulseIn(Pin_Echo, HIGH);  // Tiempo en el que el Echo percibió el pulso
   
-  dist = (duracion/2) / 29; // Cálculo de la distancia en cm
+  dist = (duracion/2)/29; // Cálculo de la distancia en cm
+  Serial.println(dist); 
   
   if (dist <= 5 && dist >= 1) // Orden de detenerse si percibe algo a menos de 5 cm
   {
